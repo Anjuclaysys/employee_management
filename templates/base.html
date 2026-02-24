@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Employee Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            padding: 6px 10px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background-color: orange;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-submit {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Employee Management System</h1>
+    <hr>
+
+    {% block content %}{% endblock %}
+
+</body>
+
+</html>
