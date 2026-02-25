@@ -1,9 +1,14 @@
-from sqlalchemy import Column, Integer, String, Float, Date, DateTime
+from sqlalchemy import Column, Date, DateTime, Float, Integer, String
 from sqlalchemy.sql import func
+
 from app.core.database import Base
 
 
 class Employee(Base):
+    """
+    SQLAlchemy ORM model representing an employee record.
+    """
+
     __tablename__ = "employees"
 
     id = Column(Integer, primary_key=True)

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="/employees/create">Add New Employee</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Salary</th>
+            <th>Age</th>
+            <th>Phone</th>
+            <th>Employment Type</th>
+            <th>Contract End Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for emp in employees %}
+        <tr>
+            <td>{{ emp.id }}</td>
+            <td>{{ emp.first_name }} {{ emp.last_name }}</td>
+            <td>{{ emp.email }}</td>
+            <td>{{ emp.role }}</td>
+            <td>{{ emp.salary }}</td>
+            <td>{{ emp.age }}</td>
+            <td>{{ emp.phone_number}}</td>
+            <td>{{ emp.employment_type }}</td>
+            <td>{{ emp.contract_end_date }}</td>
+            <td>
+                <a href="/employees/edit/{{ emp.id }}" class="btn btn-edit">Edit</a>
+
+                <form action="/employees/delete/{{ emp.id }}" method="post" style="display:inline;"
+                    onsubmit="return confirm('Are you sure you want to delete this employee?');">
+                    <button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

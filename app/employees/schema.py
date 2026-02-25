@@ -1,21 +1,24 @@
-from pydantic import BaseModel, field_validator, model_validator, Field
-from datetime import date
 import re
+from datetime import date
+from typing import Optional
+
+from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
 
 
-class EmployeeCreate(BaseModel):
+class EmployeeBase(BaseModel):
+    """
+    Base schema containing common employee attributes.
+    """
 
-    username: str
-    password: str
     first_name: str
     last_name: str
-    email: str
+    email: EmailStr
     phone_number: str
     age: int
     role: str
     salary: float
     employment_type: str
-    contract_end_date: date | None = None
+    contract_end_date: Optional[date] = None
 
     @field_validator("age")
     def validate_age(cls, v):
@@ -41,7 +44,17 @@ class EmployeeCreate(BaseModel):
             raise ValueError("Contract employees must have contract_end_date")
         return self
 
+
+class EmployeeCreate(EmployeeBase):
+    """
+    Schema used when creating a new employee.
+    """
+
+    username: str
+    password: str
+
     @field_validator("password")
+    @classmethod
     def validate_password(cls, v):
         if len(v.encode("utf-8")) > 72:
             raise ValueError("Password cannot exceed 72 bytes")
@@ -50,17 +63,31 @@ class EmployeeCreate(BaseModel):
         return v
 
 
-class EmployeeResponse(BaseModel):
+class EmployeeUpdate(EmployeeBase):
+    """
+    Schema used when updating an existing employee.
+    """
+
+    password: Optional[str] = None
+
+    @field_validator("password")
+    @classmethod
+    def validate_password(cls, v):
+        if v is None:
+            return v
+        if len(v.encode("utf-8")) > 72:
+            raise ValueError("Password cannot exceed 72 bytes")
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters")
+        return v
+
+
+class EmployeeResponse(EmployeeBase):
+    """
+    Schema returned in API responses.
+    """
+
     id: int
-    first_name: str
-    last_name: str
-    email: str
-    phone_number: str
-    age: int
-    role: str
-    salary: float
-    employment_type: str
-    contract_end_date: date | None
 
     class Config:
         from_attributes = True

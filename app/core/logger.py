@@ -4,6 +4,9 @@ from pythonjsonlogger import jsonlogger
 
 
 def setup_logger():
+    """
+    Configure and return a structured JSON logger.
+    """
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 

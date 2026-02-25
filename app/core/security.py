@@ -1,12 +1,24 @@
-import jwt
 from datetime import datetime, timedelta, timezone
+
+import jwt
 from passlib.context import CryptContext
+
 from app.core.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class Security:
+    """
+    Utility class for handling password hashing and JWT token operations.
+
+    This class provides static methods for:
+    - Hashing passwords
+    - Verifying passwords
+    - Creating JWT access tokens
+    - Decoding JWT tokens
+    """
+
     @staticmethod
     def hash_password(password: str):
         return pwd_context.hash(password)

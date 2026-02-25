@@ -1,9 +1,14 @@
-from sqlalchemy.orm import Session
 from sqlalchemy import select
+from sqlalchemy.orm import Session
+
 from app.employees.model import Employee
 
 
 class EmployeeRepository:
+    """
+    Repository layer for handling Employee database operations.
+    """
+
     def __init__(self, db: Session):
         self.db = db
 

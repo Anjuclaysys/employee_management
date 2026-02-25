@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Edit Employee</h2>
+
+{% if errors %}
+<div class="error">
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post" action="/employees/edit/{{ employee.id }}">
+
+    <label>First Name:</label><br>
+    <input type="text" name="first_name" value="{{ employee.first_name }}"><br><br>
+
+    <label>Last Name:</label><br>
+    <input type="text" name="last_name" value="{{ employee.last_name }}"><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" value="{{ employee.email }}"><br><br>
+
+    <label>Phone:</label><br>
+    <input type="text" name="phone_number" value="{{ employee.phone_number }}"><br><br>
+
+    <label>Age:</label><br>
+    <input type="number" name="age" value="{{ employee.age }}"><br><br>
+
+    <label>Role:</label><br>
+    <input type="text" name="role" value="{{ employee.role }}"><br><br>
+
+    <label>Salary:</label><br>
+    <input type="number" step="0.01" name="salary" value="{{ employee.salary }}"><br><br>
+
+    <label>Employment Type:</label><br>
+    <select name="employment_type">
+        <option value="Permanent" {% if employee.employment_type=="Permanent" %}selected{% endif %}>Permanent</option>
+        <option value="Contract" {% if employee.employment_type=="Contract" %}selected{% endif %}>Contract</option>
+    </select><br><br>
+
+    <label>Contract End Date:</label><br>
+    <input type="date" name="contract_end_date" value="{{ employee.contract_end_date }}"><br><br>
+
+    <button type="submit" class="btn btn-submit">Update</button>
+
+</form>
+
+{% endblock %}

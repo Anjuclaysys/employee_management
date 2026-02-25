@@ -1,10 +1,18 @@
-from app.employees.repository import EmployeeRepository
-from app.employees.model import Employee
-from app.employees.schema import EmployeeCreate
 from app.core.security import Security
+from app.employees.model import Employee
+from app.employees.repository import EmployeeRepository
+from app.employees.schema import EmployeeCreate, EmployeeUpdate
 
 
 class EmployeeService:
+    """
+    Service layer responsible for employee business logic.
+
+    This class acts as an intermediary between API routes and the
+    repository layer. It handles validation, password hashing,
+    and application-level rules before interacting with the database.
+    """
+
     def __init__(self, db):
         self.repository = EmployeeRepository(db)
 
@@ -25,12 +33,19 @@ class EmployeeService:
             raise ValueError("employee not found")
         return employee
 
-    def update_employee(self, employee_id: int, data: EmployeeCreate):
+    def update_employee(self, employee_id: int, data: EmployeeUpdate):
         employee = self.repository.get_by_id(employee_id)
         if not employee:
             raise ValueError("employee not found")
 
-        for key, value in data.model_dump().items():
+        update_data = data.model_dump(exclude_unset=True)
+
+        for key, value in update_data.items():
+            if key == "password":
+                if value:
+                    value = Security.hash_password(value)
+                else:
+                    continue
             setattr(employee, key, value)
 
         return self.repository.update(employee)
